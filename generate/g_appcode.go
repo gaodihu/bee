@@ -1096,7 +1096,7 @@ func GetAll{{modelName}}(query map[string]string, fields []string, sortby []stri
 			return nil,0, errors.New("Error: unused 'order' fields")
 		}
 	}
-	count,_ := qs.Count
+	count,_ := qs.Count()
 	var l []{{modelName}}
 	qs = qs.OrderBy(sortFields...)
 	if _, err = qs.Limit(limit, offset).All(&l, fields...); err == nil {
@@ -1188,12 +1188,12 @@ func (c *{{ctrlName}}Controller) Post() {
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
 		if _, err := models.Add{{ctrlName}}(&v); err == nil {
 			c.Ctx.Output.SetStatus(201)
-			c.Data["json"] = v
+			c.Data["json"] = map[string]interface{}{"code":200,"data":v,"message":"success"}
 		} else {
-			c.Data["json"] = err.Error()
+			c.Data["json"] = map[string]interface{}{"code":500,"data":"","message":err.Error()}
 		}
 	} else {
-		c.Data["json"] = err.Error()
+		c.Data["json"] = map[string]interface{}{"code":500,"data":"","message":err.Error()}
 	}
 	c.ServeJSON()
 }
@@ -1210,9 +1210,9 @@ func (c *{{ctrlName}}Controller) GetOne() {
 	id, _ := strconv.Atoi(idStr)
 	v, err := models.Get{{ctrlName}}ById(id)
 	if err != nil {
-		c.Data["json"] = err.Error()
+		c.Data["json"] = c.Data["json"] = map[string]interface{}{"code":500,"data":"","message":err.Error()}
 	} else {
-		c.Data["json"] = v
+		c.Data["json"] = map[string]interface{}{"code":200,"data":v,"message":"success"}
 	}
 	c.ServeJSON()
 }
@@ -1262,7 +1262,7 @@ func (c *{{ctrlName}}Controller) GetAll() {
 		for _, cond := range strings.Split(v, ",") {
 			kv := strings.SplitN(cond, ":", 2)
 			if len(kv) != 2 {
-				c.Data["json"] = errors.New("Error: invalid query key/value pair")
+				c.Data["json"] = map[string]interface{}{"code":500,"data":"","message":"Error: invalid query key/value pair"}
 				c.ServeJSON()
 				return
 			}
@@ -1273,9 +1273,9 @@ func (c *{{ctrlName}}Controller) GetAll() {
 
 	l, err := models.GetAll{{ctrlName}}(query, fields, sortby, order, offset, limit)
 	if err != nil {
-		c.Data["json"] = err.Error()
+		c.Data["json"] = map[string]interface{}{"code":500,"data":"","message":err.Error()}
 	} else {
-		c.Data["json"] = l
+		c.Data["json"] = map[string]interface{}{"code":200,"data":l,"message":"success"}
 	}
 	c.ServeJSON()
 }
@@ -1294,12 +1294,12 @@ func (c *{{ctrlName}}Controller) Put() {
 	v := models.{{ctrlName}}{Id: id}
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
 		if err := models.Update{{ctrlName}}ById(&v); err == nil {
-			c.Data["json"] = "OK"
+			c.Data["json"] = map[string]interface{}{"code":200,"data":"","message":"success"}
 		} else {
-			c.Data["json"] = err.Error()
+			c.Data["json"] = map[string]interface{}{"code":500,"data":"","message":err.Error()}
 		}
 	} else {
-		c.Data["json"] = err.Error()
+		c.Data["json"] = map[string]interface{}{"code":500,"data":"","message":err.Error()}
 	}
 	c.ServeJSON()
 }
@@ -1315,9 +1315,9 @@ func (c *{{ctrlName}}Controller) Delete() {
 	idStr := c.Ctx.Input.Param(":id")
 	id, _ := strconv.Atoi(idStr)
 	if err := models.Delete{{ctrlName}}(id); err == nil {
-		c.Data["json"] = "OK"
+		c.Data["json"] = map[string]interface{}{"code":200,"data":"","message":"success"}
 	} else {
-		c.Data["json"] = err.Error()
+		c.Data["json"] = map[string]interface{}{"code":500,"data":"","message":err.Error()}
 	}
 	c.ServeJSON()
 }
