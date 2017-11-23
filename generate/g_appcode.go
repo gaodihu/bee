@@ -23,9 +23,9 @@ import (
 	"regexp"
 	"strings"
 
-	beeLogger "github.com/beego/bee/logger"
-	"github.com/beego/bee/logger/colors"
-	"github.com/beego/bee/utils"
+	beeLogger "github.com/gaodihu/bee/logger"
+	"github.com/gaodihu/bee/logger/colors"
+	"github.com/gaodihu/bee/utils"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/lib/pq"
 )

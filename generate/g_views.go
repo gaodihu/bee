@@ -19,9 +19,9 @@ import (
 	"os"
 	"path"
 
-	beeLogger "github.com/beego/bee/logger"
-	"github.com/beego/bee/logger/colors"
-	"github.com/beego/bee/utils"
+	beeLogger "github.com/gaodihu/bee/logger"
+	"github.com/gaodihu/bee/logger/colors"
+	"github.com/gaodihu/bee/utils"
 )
 
 // recipe

@@ -18,11 +18,11 @@ import (
 	"log"
 	"os"
 
-	"github.com/beego/bee/cmd"
-	"github.com/beego/bee/cmd/commands"
-	"github.com/beego/bee/config"
-	"github.com/beego/bee/generate/swaggergen"
-	"github.com/beego/bee/utils"
+	"github.com/gaodihu/bee/cmd"
+	"github.com/gaodihu/bee/cmd/commands"
+	"github.com/gaodihu/bee/config"
+	"github.com/gaodihu/bee/generate/swaggergen"
+	"github.com/gaodihu/bee/utils"
 )
 
 func main() {
