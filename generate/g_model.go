@@ -224,7 +224,7 @@ func GetAll{{modelName}}(query map[string]string, fields []string, sortby []stri
 		}
 	}
 
-	total,_ := qs.Count()
+	count,_ := qs.Count()
 
 	var l []{{modelName}}
 	qs = qs.OrderBy(sortFields...).RelatedSel()
@@ -244,7 +244,7 @@ func GetAll{{modelName}}(query map[string]string, fields []string, sortby []stri
 				ml = append(ml, m)
 			}
 		}
-		return ml, total, nil
+		return ml, count, nil
 	}
 	return nil, 0, err
 }
